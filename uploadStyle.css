@@ -1,0 +1,106 @@
+@font-face{
+    font-family: CanteenMate;
+    src:url(fonts/Cream\ Cake.otf);
+  }
+  *{
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  body{
+    background-color: #DED0D0;
+    background-image: url(img/CmWpDark.jpg); 
+    background-repeat: repeat;
+    background-attachment: fixed;
+  }
+
+  .box{
+      padding-top: 60px;   
+      background-color: #1d202123;
+      backdrop-filter: blur(2px);
+      width: 600px;
+      margin: auto;
+      margin-top: 60px;
+      border-radius: 10px;
+      border: 1px solid rgb(236, 239, 243);
+  }
+  /* @keyframes logo{
+    0%   {color: #2CD250; left: 300px; top: 0px;}
+    100% {color: white; left: 0px; top: 0px;}
+  } */
+
+  .heading{
+    width: 40%;
+    font-family: CanteenMate;
+    color: white;  
+    font-size: 50px;
+    font-weight: 100;
+    margin: auto;
+    padding-bottom: 20px;
+    text-align: center;
+  }
+  .heading2{
+    text-align: center;
+    color: white;
+    font-size: 40px;
+    
+  }
+  #upload_container{
+    margin: 10% auto;
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+  }
+  #upload_container form{
+    display: flex;
+    flex-direction: column;
+  }
+  #upload_container form input{
+    background: #1D2021;
+    color: white;
+    padding: 8px;
+    outline: none;
+    border: 1px solid white;
+    margin-bottom: 5px;
+  }
+  .upload-box{
+    font-size: 16px;
+    border-radius: 50px;
+    background: rgb(197, 144, 11);
+    color: white;
+    width: 400px;
+    outline: none;
+    margin: auto;
+  }
+  ::-webkit-file-upload-button{
+    color: white;
+    background: #592626;
+    outline: none;
+    border-radius: 50px;
+    border: none;
+    padding: 20px;
+    width: 200px;
+    cursor: pointer;
+  }
+  ::placeholder{
+    color: white;
+  }
+  #upload_container form input[type="submit"]{
+    font-family: CanteenMate;
+    font-size: 40px;
+    color: white;
+    background-color: #592626;
+  }
+  #upload_container form input[type="submit"]:hover{
+    background-color: rgb(180, 37, 37);
+    cursor: pointer;
+    border: 1px solid white;
+    transition: .3s linear;
+  }
+  @media screen and (max-width: 415px) {
+    .box{
+      width:100%;
+    }
+    .upload-box{
+      width: 100%;
+    }
+      }
