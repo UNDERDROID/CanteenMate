@@ -29,15 +29,6 @@ if ($result->num_rows > 0) {
     // Loop through each order and display it in the table
     $total_price = 0;
 
-    // Generate the signature
-    $message = 'total_amount=100,transaction_uuid=11-201-13,product_code=EPAYTEST';
-    $secretKey = '8gBm/:&EnhH.1/q';
-
-    // Generate the HMAC with SHA-256
-    $hmac = hash_hmac('sha256', $message, $secretKey, true);
-
-    // Encode the HMAC in base64
-    $encodedHmac = base64_encode($hmac);
 ?>
 
 <!DOCTYPE html>
@@ -141,53 +132,6 @@ if ($result->num_rows > 0) {
                 onSuccess (payload) {
                     // hit merchant api for initiating verfication
                     console.log(payload);
-                    if(payload.idx){
-                        $.ajaxSetup({
-                            headers: {
-                                'X-CSRF-TOKEN': '{{csrf_token()}}'
-                            }
-                        });
-                        $.ajax({
-                            method: 'post',
-                            url: "{{route('ajax.khalti.verify_order')}}",
-                            data: payload,
-
-                            success: function(response) {
-                                id(response.success == 1){
-                                    window.location = response.redirecto;
-                                }else{
-                                    checkout.hide();
-                                }
-                            },
-                            error: function(data){
-                                console.log('Error:', data);
-                            }
-                        });
-                    }
-
-                    <?php
-                    $args = http_build_query(array(
-                    'token' => 'QUao9cqFzxPgvWJNi9aKac',
-                    'amount'  => 1000
-                    ));
-
-                    $url = "https://khalti.com/api/v2/payment/verify/";
-
-                    # Make the call using API.
-                    $ch = curl_init();
-                    curl_setopt($ch, CURLOPT_URL, $url);
-                    curl_setopt($ch, CURLOPT_POST, 1);
-                    curl_setopt($ch, CURLOPT_POSTFIELDS,$args);
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-                    $headers = ['Authorization: test_secret_key_f8982be3fd06498aa6456aa4b5099c54'];
-                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-                    // Response
-                    $response = curl_exec($ch);
-                    $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                    curl_close($ch);
-                    ?>
                 },
                 onError (error) {
                     console.log(error);
