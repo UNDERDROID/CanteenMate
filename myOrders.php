@@ -39,6 +39,7 @@ if ($result->num_rows > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
         body{
             background-color: #b1aeb5;
@@ -107,7 +108,9 @@ if ($result->num_rows > 0) {
     <?php
     echo "<h3>Total Price: Rs. " . number_format($total_price, 2) . "</h3>";
     ?>
-    
+    <input type="hidden" name="username" id="username" value = "<?php echo htmlspecialchars($_SESSION['username']); ?>" >
+    <input type="hidden" name="token" id="token">
+    <input type="hidden" name="amount" id="amount">
     <?php
     echo '<button class="paymentButton1" style="width: 180px; height: 50px; background-color:#24bd45; color:white; font-weight:800; background-image: url(\'img/esewa.png\'); background-size: contain; background-repeat: no-repeat; background-position: right center; border:1px solid #0eeb3d; border-radius: 5px; cursor: pointer;text-align: left; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);">Pay using Esewa</button> &nbsp';
     echo '<button class="paymentButton2" id="payment-button" style="width: 180px; height: 50px; background-color:#5B2C92; color:white; font-weight:800; background-image: url(\'img/khalti.png\'); background-size: contain; background-repeat: no-repeat; background-position: right center; border:1px solid #0eeb3d; border-radius: 5px; cursor: pointer;text-align: left; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);">Pay using Khalti</button>';
@@ -132,8 +135,31 @@ if ($result->num_rows > 0) {
                 onSuccess (payload) {
                     // hit merchant api for initiating verfication
                     console.log(payload);
+                    $('#token').val(payload.token);   
+                    $('#amount').val(payload.amount);
+
+                    var username = $('#username').val();
+                    var token = $('#token').val();
+                    var amount = $('#amount').val();
+                   
+                    $.ajax({
+                    url: 'insert_khalti.php',
+                    type: 'POST',
+                    data: {
+                        username: username,
+                        token: token,
+                        amount: amount
+                    },
+                    success: function(response) {
+                        alert(response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr);
+                    }
+                });
+
                 },
-                onError (error) {
+                onError (error) {s
                     console.log(error);
                 },
                 onClose () {
@@ -146,8 +172,8 @@ if ($result->num_rows > 0) {
         var btn = document.getElementById("payment-button");
         btn.onclick = function () {
             // minimum transaction amount must be 10, i.e 1000 in paisa.
-            // checkout.show({amount: <?php //echo $total_price*100; ?>});
-            checkout.show({amount: 1000});
+            checkout.show({amount: <?php echo $total_price*100; ?>});
+            
         }
     </script>
 </body>
