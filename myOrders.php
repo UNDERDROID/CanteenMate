@@ -5,11 +5,12 @@
 //   exit;
 // }
 include("navbar.php");
+include("insert_khalti.php");
 $User = $_SESSION['username'];
 require_once 'connection.php';
 
 // Prepare the SQL statement to retrieve the orders
-$sql = "SELECT `Item Name`, `Item Price`, `Quantity`, `Total Price`, `Ordered Time`, `Status`
+$sql = "SELECT `Item Name`, `Item Price`, `Quantity`, `Total Price`, `Ordered Time`, `Status`, `Payment`
 FROM `orders` WHERE `User` = '$User' ORDER BY `Item Name` ASC";
 
 // Execute the statement and store the result set
@@ -90,6 +91,7 @@ if ($result->num_rows > 0) {
             <th>Total</th>
             <th>Ordered Time</th>
             <th>Status</th>
+            <th>Payment</th>
         </tr>    
         <?php
         while($row = $result->fetch_assoc()) {
@@ -100,6 +102,7 @@ if ($result->num_rows > 0) {
             echo "<td>Rs. " . number_format(intval($row["Total Price"]), 2) . "</td>";
             echo "<td>" . $row["Ordered Time"] . "</td>";
             echo "<td>" . $row["Status"] . "</td>";
+            echo "<td>" . $row["Payment"] . "</td>";
             echo "</tr>";
             $total_price += floatval($row["Total Price"]);
         }
@@ -107,6 +110,7 @@ if ($result->num_rows > 0) {
     </table> 
     <?php
     echo "<h3>Total Price: Rs. " . number_format($total_price, 2) . "</h3>";
+    
     ?>
     <input type="hidden" name="username" id="username" value = "<?php echo htmlspecialchars($_SESSION['username']); ?>" >
     <input type="hidden" name="token" id="token">
