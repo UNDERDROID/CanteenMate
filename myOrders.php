@@ -19,9 +19,6 @@ $result = $conn->query($sql);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
-$result = $conn->query($sql);
-
 if (!$result) {
     die("Query error: " . $conn->error);
 }
@@ -105,20 +102,72 @@ if ($result->num_rows > 0) {
             echo "<td>" . $row["Payment"] . "</td>";
             echo "</tr>";
             $total_price += floatval($row["Total Price"]);
+            $_SESSION['total_price'] = $total_price;
         }
         ?>
     </table> 
     <?php
     echo "<h3>Total Price: Rs. " . number_format($total_price, 2) . "</h3>";
-    
     ?>
+    <form action="createOrder.php" method="post">
+        <button type="submit">Confirm Order</button>
+    </form>
+
+
+<?php
+
+$sql2 = "SELECT payment_id FROM esewa WHERE Username = '$User'";
+$result2 = $conn->query($sql2);
+
+if ($result2 === false) {
+    die("Error executing query: " . $conn->error);
+}
+
+    while($esewa = $result2->fetch_assoc()) {
+        $payment_id = $esewa["payment_id"];
+        $_SESSION['payment_id']=$payment_id;
+    }
+//echo "Payment id:" . $_SESSION['payment_id'];
+
+
+$message = 'total_amount='.$total_price.',transaction_uuid='.$payment_id.',product_code=EPAYTEST';
+$secret = '8gBm/:&EnhH.1/q';
+    $hash = hash_hmac('sha256', $message, $secret, true);
+
+// Encode the hash in base-64
+$base64Signature = base64_encode($hash);
+
+// Output the base-64 encoded signature
+//echo $base64Signature;
+?>
+
+<form action="https://rc-epay.esewa.com.np/api/epay/main/v2/form" method="POST">
+ <input type="hidden" id="amount" name="amount" value="<?php echo $total_price;?>" required>
+ <input type="hidden" id="tax_amount" name="tax_amount" value ="0" required>
+ <input type="hidden" id="total_amount" name="total_amount" value="<?php echo $total_price;?>" required>
+ <input type="hidden" id="transaction_uuid" name="transaction_uuid" value="<?php echo $payment_id;?>" required>
+ <input type="hidden" id="product_code" name="product_code" value ="EPAYTEST" required>
+ <input type="hidden" id="product_service_charge" name="product_service_charge" value="0" required>
+ <input type="hidden" id="product_delivery_charge" name="product_delivery_charge" value="0" required>
+ <input type="hidden" id="success_url" name="success_url" value="http://localhost/CanteenMate/esewa/payment_success.php" required>
+ <input type="hidden" id="failure_url" name="failure_url" value="http://localhost/CanteenMate/esewa/payment_fail.php" required>
+ <input type="hidden" id="signed_field_names" name="signed_field_names" value="total_amount,transaction_uuid,product_code" required>
+ <input type="hidden" id="signature" name="signature" value="<?php echo $base64Signature;?>" required>
+
+<!-- Esewa payment button -->
+ <button class="paymentButton1" value="Submit" style="width: 180px; height: 50px; background-color:#24bd45; color:white; font-weight:800; background-image: url('img/esewa.png'); background-size: contain; background-repeat: no-repeat; background-position: right center; border:1px solid #0eeb3d; border-radius: 5px; cursor: pointer;text-align: left; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);">Pay using Esewa</button> 
+ 
+</form>
+
+
+<!-- Khalti payment button -->
+<button class="paymentButton2" id="payment-button" style="width: 180px; height: 50px; background-color:#5B2C92; color:white; font-weight:800; background-image: url('img/khalti.png'); background-size: contain; background-repeat: no-repeat; background-position: right center; border:1px solid #0eeb3d; border-radius: 5px; cursor: pointer;text-align: left; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);">Pay using Khalti</button> 
+
     <input type="hidden" name="username" id="username" value = "<?php echo htmlspecialchars($_SESSION['username']); ?>" >
     <input type="hidden" name="token" id="token">
     <input type="hidden" name="amount" id="amount">
-    <?php
-    echo '<button class="paymentButton1" style="width: 180px; height: 50px; background-color:#24bd45; color:white; font-weight:800; background-image: url(\'img/esewa.png\'); background-size: contain; background-repeat: no-repeat; background-position: right center; border:1px solid #0eeb3d; border-radius: 5px; cursor: pointer;text-align: left; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);">Pay using Esewa</button> &nbsp';
-    echo '<button class="paymentButton2" id="payment-button" style="width: 180px; height: 50px; background-color:#5B2C92; color:white; font-weight:800; background-image: url(\'img/khalti.png\'); background-size: contain; background-repeat: no-repeat; background-position: right center; border:1px solid #0eeb3d; border-radius: 5px; cursor: pointer;text-align: left; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);">Pay using Khalti</button>';
-    ?>
+</body>
+ 
 
 <script>
         var config = {
@@ -156,6 +205,7 @@ if ($result->num_rows > 0) {
                     },
                     success: function(response) {
                         alert(response);
+                        location.reload();
                     },
                     error: function(xhr, status, error) {
                         console.error(xhr);
