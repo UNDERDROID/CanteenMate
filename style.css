@@ -146,9 +146,16 @@ nav .fa-user{
   width: 100%;
 }
 /* CARDS */
+.crd-container{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 20px;
+}
 .row{
   display: inline-block;
   flex-direction: row;
+  justify-content: center;
 }
 .crd{
   width: 205px;
@@ -259,4 +266,41 @@ nav .fa-user{
   border-radius: 5px;
   overflow: auto;
 }
+.quantity-input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px auto;
+}
 
+.quantity-btn {
+  width: 30px;
+  height: 30px;
+  background-color: #2CD250;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.quantity-btn:hover {
+  background-color: #25A842;
+}
+
+.qty {
+  width: 50px;
+  height: 30px;
+  text-align: center;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 0 5px;
+}
+
+.qty::-webkit-inner-spin-button, 
+.qty::-webkit-outer-spin-button { 
+  -webkit-appearance: none;
+  margin: 0;
+}
