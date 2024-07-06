@@ -60,6 +60,38 @@ if ($result->num_rows > 0) {
             color: white;
             text-shadow: 2px 2px gray;
         }
+        .quantity-input {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .quantity-btn {
+            width: 25px;
+            height: 25px;
+            background-color: #2CD250;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+        .qty {
+            width: 40px;
+            text-align: center;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .remove-btn {
+            padding: 5px 10px;
+            margin: 2px;
+            cursor: pointer;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
         @media screen and (max-width: 415px) {
             nav{
                 width: 450px;
@@ -89,17 +121,25 @@ if ($result->num_rows > 0) {
             <th>Ordered Time</th>
             <th>Status</th>
             <th>Payment</th>
+            <th>Actions</th>
         </tr>    
         <?php
         while($row = $result->fetch_assoc()) {
-            echo "<tr>";
-            echo "<td>" . $row["Item Name"] . "</td>";
+          echo "<tr data-item-name='" . $row["Item Name"] . "' data-item-price='" . $row["Item Price"] . "'>";
+          echo "<td>" . $row["Item Name"] . "</td>";
             echo "<td>Rs. " . $row["Item Price"] . "</td>";
-            echo "<td>" . $row["Quantity"] . "</td>";
+            echo "<td>
+                    <div class='quantity-input'>
+                        <button type='button' class='quantity-btn minus-btn'>-</button>
+                        <input type='number' name='quantity' class='qty' value='" . $row["Quantity"] . "' min='1' readonly>
+                        <button type='button' class='quantity-btn plus-btn'>+</button>
+                    </div>
+                  </td>";
             echo "<td>Rs. " . number_format(intval($row["Total Price"]), 2) . "</td>";
             echo "<td>" . $row["Ordered Time"] . "</td>";
             echo "<td>" . $row["Status"] . "</td>";
             echo "<td>" . $row["Payment"] . "</td>";
+            echo "<td><button class='remove-btn'>Remove</button></td>";
             echo "</tr>";
             $total_price += floatval($row["Total Price"]);
             $_SESSION['total_price'] = $total_price;
@@ -163,9 +203,95 @@ $base64Signature = base64_encode($hash);
 <!-- Khalti payment button -->
 <button class="paymentButton2" id="payment-button" style="width: 180px; height: 50px; background-color:#5B2C92; color:white; font-weight:800; background-image: url('img/khalti.png'); background-size: contain; background-repeat: no-repeat; background-position: right center; border:1px solid #0eeb3d; border-radius: 5px; cursor: pointer;text-align: left; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);">Pay using Khalti</button> 
 
-    <input type="hidden" name="username" id="username" value = "<?php echo htmlspecialchars($_SESSION['username']); ?>" >
-    <input type="hidden" name="token" id="token">
-    <input type="hidden" name="amount" id="amount">
+<input type="hidden" name="username" id="username" value = "<?php echo htmlspecialchars($_SESSION['username']); ?>" >
+<input type="hidden" name="token" id="token">
+<input type="hidden" name="amount" id="amount">
+
+<script>
+$(document).ready(function() {
+    function updateQuantity(row, change) {
+        var quantityInput = row.find('.qty');
+        var currentQuantity = parseInt(quantityInput.val());
+        var newQuantity = currentQuantity + change;
+        
+        if (newQuantity >= 1) {
+            quantityInput.val(newQuantity);
+            updateItemTotal(row, newQuantity);
+        }
+    }
+
+    function updateItemTotal(row, newQuantity) {
+        var itemPrice = parseFloat(row.data('item-price'));
+        var newTotal = itemPrice * newQuantity;
+        row.find('.total-price').text('Rs. ' + newTotal.toFixed(2));
+        updateTotalPrice();
+
+        // Send update to server
+        var itemName = row.data('item-name');
+        $.ajax({
+            url: 'update_cart.php',
+            type: 'POST',
+            data: {
+                action: 'update',
+                itemName: itemName,
+                quantity: newQuantity
+            },
+            success: function(response) {
+                var result = JSON.parse(response);
+                if(!result.success) {
+                    alert('Failed to update quantity on server');
+                }
+            },
+            error: function() {
+                alert('Failed to communicate with server');
+            }
+        });
+    }
+
+    function updateTotalPrice() {
+        var total = 0;
+        $('.total-price').each(function() {
+            total += parseFloat($(this).text().replace('Rs. ', ''));
+        });
+        $('#total-price span').text(total.toFixed(2));
+    }
+
+    // Use event delegation for dynamically created elements
+    $(document).on('click', '.minus-btn', function() {
+        updateQuantity($(this).closest('tr'), -1);
+    });
+
+    $(document).on('click', '.plus-btn', function() {
+        updateQuantity($(this).closest('tr'), 1);
+    });
+
+    $(document).on('click', '.remove-btn', function() {
+        var row = $(this).closest('tr');
+        var itemName = row.data('item-name');
+        
+        $.ajax({
+            url: 'update_cart.php',
+            type: 'POST',
+            data: {
+                action: 'remove',
+                itemName: itemName
+            },
+            success: function(response) {
+                var result = JSON.parse(response);
+                if(result.success) {
+                    row.remove();
+                    updateTotalPrice();
+                } else {
+                    alert('Failed to remove item');
+                }
+            },
+            error: function() {
+                alert('Failed to communicate with server');
+            }
+        });
+    });
+});
+</script>
 </body>
  
 
