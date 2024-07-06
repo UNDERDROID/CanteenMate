@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($stmt->execute()) {
 
         $pid = $username . time();
-        $amount = $_SESSION['total_price'];
+        $amount = $total_price;
     
         // SQL statement to insert or update the amount if the username already exists
         $sql = "INSERT INTO esewa (Username, payment_id, amount, Time) VALUES (?, ?, ?, current_timestamp())

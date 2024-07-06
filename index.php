@@ -61,6 +61,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin']!=true){
   </div>
 </div>
  
+<div class="crd-container">
 <?php
       while($row = mysqli_fetch_assoc($result)){
   ?>
@@ -73,7 +74,11 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin']!=true){
       <div class="crd-bdy">
         <h1 class="crd-title"><?php echo $row["Name"];  ?></h1>
         <p class="crd-subtitle"><?php echo 'Rs.' . $row["Price"];  ?></p>
-        <input type="number" name="quantity" id="qty" placeholder="Quantity" min="1">
+        <div class="quantity-input">
+          <button type="button" class="quantity-btn minus-btn">-</button>
+          <input type="number" name="quantity" class="qty" value="1" min="1">
+          <button type="button" class="quantity-btn plus-btn">+</button>
+        </div>
         <button type="submit" class="crd-btn" name="add-to-list">Add to list</button> 
         <input type="hidden" name="item_name" value="<?php echo $row["Name"];?>">
         <input type="hidden" name="item_price" value="<?php echo $row["Price"];?>">
@@ -86,12 +91,38 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin']!=true){
 <?php 
     }
   ?>
-    
+</div>
+   
   </section>
   <!-- JS link -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="script.js"></script>
  
   </main>
+
+  <script>
+document.addEventListener('DOMContentLoaded', function() {
+  const quantityInputs = document.querySelectorAll('.quantity-input');
+
+  quantityInputs.forEach(input => {
+    const minusBtn = input.querySelector('.minus-btn');
+    const plusBtn = input.querySelector('.plus-btn');
+    const quantityField = input.querySelector('.qty');
+
+    minusBtn.addEventListener('click', () => {
+      let value = parseInt(quantityField.value);
+      if (value > 1) {
+        quantityField.value = value - 1;
+      }
+    });
+
+    plusBtn.addEventListener('click', () => {
+      let value = parseInt(quantityField.value);
+      quantityField.value = value + 1;
+    });
+  });
+});
+</script>
+
 </body>
 </html>

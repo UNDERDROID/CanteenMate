@@ -6,12 +6,25 @@
   box-sizing: border-box;
   font-family: Arial, Helvetica, sans-serif;
 }
-body{
+body {
   background-color: #DED0D0;
-  background-image: url(img/CmWp2Green.jpg); 
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  position: relative;
 }
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url(img/CmWp2Green.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: blur(2px); /* Adjust the blur radius as needed */
+  z-index: -1;
+}
+
 
 /* NAVIGATION BAR */
 nav{
@@ -146,9 +159,16 @@ nav .fa-user{
   width: 100%;
 }
 /* CARDS */
+.crd-container{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 20px;
+}
 .row{
   display: inline-block;
   flex-direction: row;
+  justify-content: center;
 }
 .crd{
   width: 205px;
@@ -166,6 +186,7 @@ nav .fa-user{
   .crd {
     width: 220px;
   }
+}
 @media screen and (max-width: 1366px) {
   .crd {
     width: 220px;
@@ -263,4 +284,41 @@ nav .fa-user{
   border-radius: 5px;
   overflow: auto;
 }
+.quantity-input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px auto;
+}
 
+.quantity-btn {
+  width: 30px;
+  height: 30px;
+  background-color: #2CD250;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.quantity-btn:hover {
+  background-color: #25A842;
+}
+
+.qty {
+  width: 50px;
+  height: 30px;
+  text-align: center;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 0 5px;
+}
+
+.qty::-webkit-inner-spin-button, 
+.qty::-webkit-outer-spin-button { 
+  -webkit-appearance: none;
+  margin: 0;
+}
