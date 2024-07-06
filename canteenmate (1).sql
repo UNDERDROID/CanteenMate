@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 29, 2024 at 08:28 AM
+-- Generation Time: Jul 05, 2024 at 05:40 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 8.0.9
 
@@ -38,6 +38,26 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`Admin Name`, `password`) VALUES
 ('admin', '$2y$10$bMO/M4HuRrYegut1U84bD.njHsJMTRtMfITtBwwdUNuCw.yqcRqCW');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `esewa`
+--
+
+CREATE TABLE `esewa` (
+  `Username` varchar(50) NOT NULL,
+  `payment_id` varchar(100) NOT NULL,
+  `amount` varchar(50) NOT NULL,
+  `Time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `esewa`
+--
+
+INSERT INTO `esewa` (`Username`, `payment_id`, `amount`, `Time`) VALUES
+('UNZIP', 'UNZIP1720153007', '680', '2024-07-05 04:16:47');
 
 -- --------------------------------------------------------
 
@@ -97,7 +117,25 @@ CREATE TABLE `khalti` (
 
 INSERT INTO `khalti` (`Username`, `Amount`, `Time`, `Token`) VALUES
 ('UNZIP', '5000', '2024-05-29 06:17:45', '9pykZhM3AYGrC7tjrUzN3U'),
-('UNZIP', '12000', '2024-05-29 06:20:56', 'wvELQvdM3FXHzxNVQLPzAG');
+('UNZIP', '12000', '2024-05-29 06:20:56', 'wvELQvdM3FXHzxNVQLPzAG'),
+('UNZIP', '12000', '2024-05-29 06:37:02', 'PMChbq5fMMB7g7N5jb9Bh3'),
+('UNZIP', '5000', '2024-06-04 14:37:25', 'ecmUYzQaKDQcbPpByYZ95g'),
+('UNZIP', '5000', '2024-06-04 15:39:21', 'Y94GwH6kackSKe9WnLNkJc'),
+('UNZIP', '5000', '2024-06-04 15:45:34', 'ri8mteN4f3Lqr4cZjAg7r8'),
+('UNZIP', '5000', '2024-06-04 16:01:49', 'dxM9pJGB47hSmwzxUTtYkn'),
+('UNZIP', '5000', '2024-06-05 02:38:54', 'kvV2GGKFPMZCzteGsunkTT'),
+('UNZIP', '5000', '2024-06-05 02:42:11', 'xFSQufMuuhKx5wDtRRHWJM'),
+('UNZIP', '3000', '2024-06-05 02:46:42', 'aAsCyvipocYC4TDTDnCfoD'),
+('UNZIP', '5000', '2024-06-05 02:51:28', 'nW5dbYrVvN5BGxPN5hps2P'),
+('UNZIP', '5000', '2024-06-05 02:53:56', 'QQFdnYKgqdJfije5A6RCDM'),
+('UNZIP', '5000', '2024-06-05 02:55:22', 'KdJuZtvtaKDbe557nZEJ9Q'),
+('UNZIP', '5000', '2024-06-05 02:57:44', 'wAXChocrvZr6979UzoKSdc'),
+('UNZIP', '5000', '2024-06-05 03:02:22', 'GAsmKvorUM7XoC9yFrsXY3'),
+('UNZIP', '5000', '2024-06-05 03:09:58', 'd9ECuKzdUth7i8g8uwPbq8'),
+('UNZIP', '5000', '2024-06-05 03:12:35', 'faGMg5UoCeHA4kuReCxbn5'),
+('UNZIP', '5000', '2024-06-05 03:38:09', '4vjf42cCoZDXRpUmMFU9UR'),
+('UNZIP', '5000', '2024-06-05 03:53:15', 'gw69tyXyrXfjLrbRdfUqB5'),
+('UNZIP', '2000', '2024-06-05 04:01:41', 'B7qgtU57uQXfBftn5YetBD');
 
 -- --------------------------------------------------------
 
@@ -115,13 +153,6 @@ CREATE TABLE `orders` (
   `Status` varchar(50) NOT NULL DEFAULT 'PENDING',
   `Payment` varchar(100) NOT NULL DEFAULT 'PENDING'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `orders`
---
-
-INSERT INTO `orders` (`Item Name`, `Item Price`, `Quantity`, `Total Price`, `Ordered Time`, `User`, `Status`, `Payment`) VALUES
-('Chicken Chow Mein', 120, 1, 120, '12:05:28', 'UNZIP', 'PENDING', 'Paid');
 
 -- --------------------------------------------------------
 
@@ -148,6 +179,12 @@ INSERT INTO `users` (`id`, `username`, `password`, `date`) VALUES
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `esewa`
+--
+ALTER TABLE `esewa`
+  ADD UNIQUE KEY `Username` (`Username`);
 
 --
 -- Indexes for table `items`

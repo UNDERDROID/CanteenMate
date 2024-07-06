@@ -169,6 +169,10 @@ nav .fa-user{
   display: inline-block;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
+@media screen and (max-width: 1920px) {
+  .crd {
+    width: 220px;
+  }
 @media screen and (max-width: 1366px) {
   .crd {
     width: 220px;
