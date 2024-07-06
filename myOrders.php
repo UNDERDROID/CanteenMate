@@ -106,9 +106,71 @@ if ($result->num_rows > 0) {
                 width: 414px;
             }
             .paymentButton1:hover {
-                box-shadow: 0px 8px 16px 0px #24bd45; /* Shadow color matching the background on hover */
-            }       
+                box-shadow: 0px 8px 16px 0px #188f32; 
+                border:1px solid #36eb5d;
+                transition: 1s;
+                
+            }    
+            .paymentButton2:hover {
+                box-shadow: 0px 8px 16px 0px #5B2C92;
+                border:1px solid #b076f5;
+                transition: 1s;
+                
+            } 
+            .button-container {
+            display: flex !important;
+            gap: 10px !important;   
         }
+            .paymentButton1{
+                width: 180px; 
+                height: 50px; 
+                background-color:#24bd45; 
+                color:white; 
+                font-weight:800; 
+                background-image: url('img/esewa.png'); 
+                background-size: contain; 
+                background-repeat: no-repeat; 
+                background-position: right center; 
+                border:1px solid #36eb5d;
+                border-radius: 5px; 
+                cursor: pointer;
+                text-align: left; 
+                box-shadow: 0px 8px 16px 0px 
+                rgba(0,0,0,0.2);
+                transition: 1s;
+            }
+            .paymentButton2{
+                width: 180px; 
+                height: 50px; 
+                background-color:#5B2C92; 
+                color:white; 
+                font-weight:800; 
+                background-image: url('img/khalti.png'); 
+                background-size: contain; 
+                background-repeat: no-repeat; 
+                background-position: right center; 
+                border:1px solid #b076f5; 
+                border-radius: 5px; 
+                cursor: pointer;
+                text-align: left; 
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                transition: 1s;
+            }
+            .updateButton{
+                padding: 8px;
+                margin-bottom: 8px;
+                font-family: Arial, Helvetica, sans-serif;
+                font-weight: bold;
+                background-color: White;
+                border: none;
+                color: #615f5f;
+                cursor: pointer;
+                transition: 1s;
+            }
+            .updateButton:hover{
+                background-color: #edebeb;
+                transition: 1s;
+            }
     </style>
 </head>
 <body>
@@ -150,7 +212,7 @@ if ($result->num_rows > 0) {
     echo "<h3>Total Price: Rs. " . number_format($total_price, 2) . "</h3>";
     ?>
     <form action="createOrder.php" method="post">
-        <button type="submit">Confirm Order</button>
+        <button class="updateButton" type="submit">Update Order Id</button>
     </form>
 
 
@@ -181,6 +243,7 @@ $base64Signature = base64_encode($hash);
 //echo $base64Signature;
 ?>
 
+<div class="button-container">
 <form action="https://rc-epay.esewa.com.np/api/epay/main/v2/form" method="POST">
  <input type="hidden" id="amount" name="amount" value="<?php echo $total_price;?>" required>
  <input type="hidden" id="tax_amount" name="tax_amount" value ="0" required>
@@ -195,13 +258,14 @@ $base64Signature = base64_encode($hash);
  <input type="hidden" id="signature" name="signature" value="<?php echo $base64Signature;?>" required>
 
 <!-- Esewa payment button -->
- <button class="paymentButton1" value="Submit" style="width: 180px; height: 50px; background-color:#24bd45; color:white; font-weight:800; background-image: url('img/esewa.png'); background-size: contain; background-repeat: no-repeat; background-position: right center; border:1px solid #0eeb3d; border-radius: 5px; cursor: pointer;text-align: left; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);">Pay using Esewa</button> 
+ <button class="paymentButton1" value="Submit">Pay using Esewa</button> 
  
 </form>
 
 
 <!-- Khalti payment button -->
-<button class="paymentButton2" id="payment-button" style="width: 180px; height: 50px; background-color:#5B2C92; color:white; font-weight:800; background-image: url('img/khalti.png'); background-size: contain; background-repeat: no-repeat; background-position: right center; border:1px solid #0eeb3d; border-radius: 5px; cursor: pointer;text-align: left; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);">Pay using Khalti</button> 
+<button class="paymentButton2" id="payment-button">Pay using Khalti</button> 
+</div>
 
 <input type="hidden" name="username" id="username" value = "<?php echo htmlspecialchars($_SESSION['username']); ?>" >
 <input type="hidden" name="token" id="token">

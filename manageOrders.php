@@ -24,10 +24,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Execute the statement
     if ($stmt->execute()) {
-       
-        echo "<script>alert('Order placed successfully! Item Name: $item_name, Item Price: Rs.$item_price, Quantity: $quantity, Total Price: Rs." . number_format($total_price, 2) . "');
-        window.location='index.php';
-        </script>";
+
+        $pid = $username . time();
+        $amount = $_SESSION['total_price'];
+    
+        // SQL statement to insert or update the amount if the username already exists
+        $sql = "INSERT INTO esewa (Username, payment_id, amount, Time) VALUES (?, ?, ?, current_timestamp())
+                ON DUPLICATE KEY UPDATE payment_id = VALUES(payment_id), amount = VALUES(amount), Time = current_timestamp()";
+    
+        $stmt2 = $conn->prepare($sql);
+        if ($stmt2 === false) {
+            die('Prepare failed: ' . htmlspecialchars($conn->error));
+        }
+    
+        $stmt2->bind_param("ssd", $User, $pid, $amount);
+    
+        if ($stmt2->execute()) {
+            echo "<script>alert('Order confirmed'); window.location='myOrders.php';</script>";
+        } else {
+            echo "Error: " . htmlspecialchars($stmt2->error);
+        }
+        // echo "<script>alert('Order placed successfully! Item Name: $item_name, Item Price: Rs.$item_price, Quantity: $quantity, Total Price: Rs." . number_format($total_price, 2) . "');
+        // window.location='index.php';
+        // </script>";
         
         
     } else {
