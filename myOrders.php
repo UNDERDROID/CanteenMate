@@ -105,6 +105,7 @@ if ($result->num_rows > 0) {
             table{
                 width: 414px;
             }
+        }
             .paymentButton1:hover {
                 box-shadow: 0px 8px 16px 0px #188f32; 
                 border:1px solid #36eb5d;
@@ -120,7 +121,7 @@ if ($result->num_rows > 0) {
             .button-container {
             display: flex !important;
             gap: 10px !important;   
-        }
+            }
             .paymentButton1{
                 width: 180px; 
                 height: 50px; 
@@ -135,8 +136,7 @@ if ($result->num_rows > 0) {
                 border-radius: 5px; 
                 cursor: pointer;
                 text-align: left; 
-                box-shadow: 0px 8px 16px 0px 
-                rgba(0,0,0,0.2);
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
                 transition: 1s;
             }
             .paymentButton2{
@@ -258,8 +258,7 @@ $base64Signature = base64_encode($hash);
  <input type="hidden" id="signature" name="signature" value="<?php echo $base64Signature;?>" required>
 
 <!-- Esewa payment button -->
- <button class="paymentButton1" value="Submit">Pay using Esewa</button> 
- 
+<button class="paymentButton1" value="Submit">Pay using Esewa</button>
 </form>
 
 
