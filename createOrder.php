@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param("ssd", $username, $pid, $amount);
 
     if ($stmt->execute()) {
-        echo "<script>alert('Order confirmed'); window.location='myOrders.php';</script>";
+        echo "<script>alert('Order Id updated'); window.location='myOrders.php';</script>";
     } else {
         echo "Error: " . htmlspecialchars($stmt->error);
     }
