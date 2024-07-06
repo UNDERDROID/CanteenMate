@@ -1,8 +1,5 @@
 <?php
 require_once 'connection.php';
-function refreshPage($seconds = 0) {
-    header("Refresh: $seconds");
-}
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $token = $_POST['token'];
@@ -62,7 +59,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Execute the statement
             if ($update_stmt->execute()) {
                 echo " and payment status updated successfully.";
-                refreshPage(); 
             } else {
                 echo " but failed to update payment status: " . $update_stmt->error;
             }
