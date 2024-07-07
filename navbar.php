@@ -56,6 +56,16 @@ nav .logo{
 nav .logo:hover{
   color: green;
 }
+
+nav .logo a {
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  font-size: inherit;
+  font-family: inherit;
+}
 @keyframes logo{
   0%   {color: #2CD250; left: 300px; top: 0px;}
   100% {color: white; left: 0px; top: 0px;}
@@ -166,7 +176,7 @@ nav .fa-user{
 <main>
 <!-- NAVIGATION BAR   -->
       <nav>
-        <div class="logo">CanteenMate</div>
+        <div class="logo"><a href="index.php">CanteenMate</a></div>
         <!-- Search Box -->
         <div class="search_box">
           <form action="search.php" method="GET">
