@@ -10,7 +10,7 @@ $User = $_SESSION['username'];
 require_once 'connection.php';
 
 // Prepare the SQL statement to retrieve the orders
-$sql = "SELECT `Item Name`, `Item Price`, `Quantity`, `Total Price`, `Ordered Time`, `Status`, `Payment`
+$sql = "SELECT `Item Name`, `Item Price`, `Quantity`, `Total Price`, `Ordered Time`, `Status`
 FROM `orders` WHERE `User` = '$User' ORDER BY `Item Name` ASC";
 
 // Execute the statement and store the result set
@@ -182,7 +182,6 @@ if ($result->num_rows > 0) {
             <th>Total</th>
             <th>Ordered Time</th>
             <th>Status</th>
-            <th>Payment</th>
             <th>Actions</th>
         </tr>    
         <?php
@@ -200,7 +199,6 @@ if ($result->num_rows > 0) {
             echo "<td>Rs. " . number_format(intval($row["Total Price"]), 2) . "</td>";
             echo "<td>" . $row["Ordered Time"] . "</td>";
             echo "<td>" . $row["Status"] . "</td>";
-            echo "<td>" . $row["Payment"] . "</td>";
             echo "<td><button class='remove-btn'>Remove</button></td>";
             echo "</tr>";
             $total_price += floatval($row["Total Price"]);

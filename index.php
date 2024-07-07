@@ -36,6 +36,7 @@ $result = mysqli_query($conn, $query);
           <button type="submit" class="fa fa-search"></button>
         </form>
       </div>
+      
       <div class="dropdown">
         <i class="fa-solid fa-user"></i>
         <div class="dropdown-content">
