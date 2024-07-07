@@ -49,7 +49,7 @@ if ($result->num_rows > 0) {
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
         }
         th, td {
-            text-align: left;
+            text-align: center;
             padding: 8px;
         }
         tr:nth-child(even) {
