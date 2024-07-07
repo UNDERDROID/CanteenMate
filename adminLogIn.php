@@ -69,10 +69,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       <input type="password" placeholder="Enter Password" name="password" required>
         
       <button>Login</button>
-      <button onclick = "window.location.href='login.php';">Login as User</button>
+      <button class="button" onclick = "window.location.href='login.php';" type="button">Login as User</button>
     </div>
 
   </form>
+ 
 </div>
 
 

@@ -46,7 +46,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       <input type="password" placeholder="Enter Password" name="password" required>
         
       <button>Login</button>
-      <button onclick = "window.location.href='adminLogIn.php';">Login as Admin</button>
+      <button onclick = "window.location.href='adminLogIn.php';" type="button">Login as Admin</button>
       <label>
         <br>
         <input type="checkbox"  name="remember">Remember me
