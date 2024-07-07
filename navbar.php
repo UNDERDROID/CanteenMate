@@ -109,7 +109,7 @@ nav .fa-user{
   position: relative;
   display: inline-block;
 }
-  .dropdown-content {
+.dropdown-content {
   display: none;
   position: absolute;
   background-color: #f9f9f9;
@@ -118,17 +118,32 @@ nav .fa-user{
   right: 0px;
   top: 35px;
   z-index: 5;
+  border-radius: 5px;
+  overflow: hidden;
 }
 .dropdown-content:hover{
   display: block;
 }
- .dropdown-content a {
+.dropdown-content h1 {
+  padding: 12px 16px;
+  margin: 0;
+  background-color: #2CD250;
+  color: white;
+  font-size: 18px;
+  text-align: center;
+}
+.dropdown-content a {
   color: black;
   padding: 12px 16px;
   text-decoration: none;
   display: flex;
-  flex-direction: column;
+  align-items: center;
   margin: auto;
+}
+.dropdown-content a i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
 }
 .dropdown-content a:hover{
   color: white;
@@ -163,9 +178,9 @@ nav .fa-user{
           <i class="fa-solid fa-user"></i>
           <div class="dropdown-content">
             <h1><?php echo $_SESSION['username'];?></h1>
-            <a href="index.php">Home</a>
-            <a href="myOrders.php">My Orders</a>
-            <a href="logout.php">Log Out</a>  
+            <a href="index.php"><i class="fa-solid fa-home"></i>Home</a>
+            <a href="myOrders.php"><i class="fa-solid fa-cart-shopping"></i>My Orders</a>
+            <a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i>Log Out</a>  
           </div>
         </div>
       </nav>
