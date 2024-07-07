@@ -42,21 +42,21 @@ if (isset($_GET['search'])) {
       .crd {
         width: 220px;
       }
-
-      @media screen and (max-width: 415px) {
-        nav .logo {
-          display: none;
-        }
-
-        nav .search_box input {
-          width: 150px;
-        }
-
-        .crd {
-          width: 150px;
-          height: 250px;
-        }
+    }
+    @media screen and (max-width: 415px) {
+      nav .logo {
+        display: none;
       }
+
+      nav .search_box input {
+        width: 150px;
+      }
+
+      .crd {
+        width: 150px;
+        height: 250px;
+      }
+    }
   </style>
 </head>
 
@@ -103,3 +103,4 @@ if (isset($_GET['search'])) {
 </body>
 
 </html>
+    

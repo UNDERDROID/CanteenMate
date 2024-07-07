@@ -106,7 +106,8 @@ $result = mysqli_query($conn, $query);
   <script>
   document.addEventListener('DOMContentLoaded', function() {
     const quantityInputs = document.querySelectorAll('.quantity-input');
-    const forms = document.querySelectorAll('form');
+    const addToCartForms = document.querySelectorAll('form[action="manageOrders.php"]');
+    const searchForm = document.querySelector('form[action="search.php"]');
     const toast = document.getElementById('toast');
 
     quantityInputs.forEach(input => {
@@ -127,7 +128,7 @@ $result = mysqli_query($conn, $query);
       });
     });
 
-    forms.forEach(form => {
+    addToCartForms.forEach(form => {
       form.addEventListener('submit', function(e) {
         e.preventDefault();
 
