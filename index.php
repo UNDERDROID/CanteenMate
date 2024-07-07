@@ -40,8 +40,8 @@ $result = mysqli_query($conn, $query);
         <i class="fa-solid fa-user"></i>
         <div class="dropdown-content">
           <h1><?php echo $_SESSION['username']; ?></h1>
-          <a href="myOrders.php">My Orders</a>
-          <a href="logout.php">Log Out</a>
+          <a href="myOrders.php"><i class="fa-solid fa-cart-shopping"></i>My Orders</a>
+          <a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i>Log Out</a>
         </div>
       </div>
     </nav>
@@ -99,32 +99,66 @@ $result = mysqli_query($conn, $query);
     <!-- JS link -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="script.js"></script>
-
+    <div id="toast" class = "toast">Added to cart</div>
   </main>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const quantityInputs = document.querySelectorAll('.quantity-input');
+  document.addEventListener('DOMContentLoaded', function() {
+    const quantityInputs = document.querySelectorAll('.quantity-input');
+    const forms = document.querySelectorAll('form');
+    const toast = document.getElementById('toast');
 
-      quantityInputs.forEach(input => {
-        const minusBtn = input.querySelector('.minus-btn');
-        const plusBtn = input.querySelector('.plus-btn');
-        const quantityField = input.querySelector('.qty');
+    quantityInputs.forEach(input => {
+      const minusBtn = input.querySelector('.minus-btn');
+      const plusBtn = input.querySelector('.plus-btn');
+      const quantityField = input.querySelector('.qty');
 
-        minusBtn.addEventListener('click', () => {
-          let value = parseInt(quantityField.value);
-          if (value > 1) {
-            quantityField.value = value - 1;
+      minusBtn.addEventListener('click', () => {
+        let value = parseInt(quantityField.value);
+        if (value > 1) {
+          quantityField.value = value - 1;
+        }
+      });
+
+      plusBtn.addEventListener('click', () => {
+        let value = parseInt(quantityField.value);
+        quantityField.value = value + 1;
+      });
+    });
+
+    forms.forEach(form => {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        fetch('manageOrders.php', {
+          method: 'POST',
+          body: new FormData(this)
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 'success') {
+            showToast(data.message);
+            // this.reset(); // Uncomment this line if you want to reset the form after submission
+          } else {
+            showToast('Error adding item to cart');
           }
-        });
-
-        plusBtn.addEventListener('click', () => {
-          let value = parseInt(quantityField.value);
-          quantityField.value = value + 1;
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          showToast('Error adding item to cart');
         });
       });
     });
-  </script>
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+  });
+</script>
 
 </body>
 
